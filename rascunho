@@ -1,0 +1,15 @@
+            <div class="mensagem status">
+                <span><span class="horario">(09:21:45)</span> <strong>João</strong>  entra na sala...</span>
+            </div>
+            <div class="mensagem normal">
+                <span><span class="horario">(09:22:28)</span> <strong>João</strong> para <strong>Todos:</strong>  Bom dia</span>
+            </div>
+            <div class="mensagem normal">
+                <span><span class="horario">(09:22:38)</span> <strong>Maria</strong> para <strong>João:</strong>  Oi João :)</span>
+            </div>
+            <div class="mensagem reservada">
+                <span><span class="horario">(09:22:48)</span>  <strong>João</strong> reservadamente para <strong>Maria:</strong>  Oi gatinha quer tc?</span>
+            </div>
+            <div class="mensagem status">
+                <span><span class="horario">(09:22:58)</span> <strong>Maria</strong>  sai da sala...</span>
+            </div>
