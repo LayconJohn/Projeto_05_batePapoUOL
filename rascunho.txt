@@ -1,3 +1,5 @@
+HTML
+            
             <div class="mensagem status">
                 <span><span class="horario">(09:21:45)</span> <strong>João</strong>  entra na sala...</span>
             </div>
@@ -13,3 +15,43 @@
             <div class="mensagem status">
                 <span><span class="horario">(09:22:58)</span> <strong>Maria</strong>  sai da sala...</span>
             </div>
+
+Javascript
+
+const mensagens = [
+    {
+        from: 'João',
+        to: '',
+        text: 'entra na sala...',
+        type: 'status',
+        time: '(09:21:45)'
+    },
+    {   
+        from: 'João',
+        to: 'Todos',
+        text: 'Bom dia',
+        type: 'normal',
+        time: '(09:22:28)'
+    },
+    {
+        from: 'Maria',
+        to: 'João',
+        text: 'Bom dia :',
+        type: 'normal',
+        time: '(09:22:38)'
+    },
+    {
+        from: 'Maria',
+        to: 'João',
+        text: 'Oi gatinha quer tc?',
+        type: 'reservada',
+        time: '(09:22:48)'
+    },
+    {
+        from: 'Maria',
+        to: '',
+        text: 'sai na sala...',
+        type: 'status',
+        time: '(09:22:58)' 
+    },
+]

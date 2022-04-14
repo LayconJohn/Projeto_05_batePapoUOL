@@ -1,65 +1,45 @@
-const mensagens = [
-    {
-        horario: '(09:21:45)',
-        remetente: 'João',
-        destinatario: '',
-        mensagem: 'entra na sala...',
-        tipo: 'status'
-    },
-    {
-        horario: '(09:22:28)',
-        remetente: 'João',
-        destinatario: 'Todos',
-        mensagem: 'Bom dia',
-        tipo: 'normal'
-    },
-    {
-        horario: '(09:22:38)',
-        remetente: 'Maria',
-        destinatario: 'João',
-        mensagem: 'Bom dia :)',
-        tipo: 'normal'
-    },
-    {
-        horario: '(09:22:48)',
-        remetente: 'Maria',
-        destinatario: 'João',
-        mensagem: 'Oi gatinha quer tc?',
-        tipo: 'reservada'
-    },
-    {
-        horario: '(09:22:58)',
-        remetente: 'Maria',
-        destinatario: '',
-        mensagem: 'sai na sala...',
-        tipo: 'status'
-    },
-]
+let mensagens = [];
+
+//Mensagens da API
+pegarMensagens();
 
 function renderizarMensagens() {
-    const mensagemChat = document.querySelector(".chat")
+    const mensagemChat = document.querySelector(".chat");
+    mensagemChat.innerHTML = '';
     for (let i=0; i < mensagens.length; i++) {
-        if (mensagens[i].tipo == 'status') {
-            mensagemChat += `
-            <div class="mensagem ${mensagens[i].tipo}">
-                <span><span class="horario">${mensagens[i].horario}</span> <strong>${mensagens[i].remetente}</strong>  ${mensagens[i].mensagem}</span>
+        if (mensagens[i].type == 'status') {
+            mensagemChat.innerHTML += `
+            <div class="mensagem ${mensagens[i].type}">
+                <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong>  ${mensagens[i].text}</span>
             </div>
             `
-        } else if (mensagens[i].tipo == 'normal') {
-            mensagemChat += `
-            <div class="mensagem ${mensagens[i].tipo}">
-                <span><span class="horario">${mensagens[i].horario}</span> <strong>${mensagens[i].remetente}</strong> para <strong>${mensagens[i].destinatario}</strong> ${mensagens[i].mensagem}</span>
+        } else if (mensagens[i].type == 'normal') {
+            mensagemChat.innerHTML += `
+            <div class="mensagem ${mensagens[i].type}">
+                <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> para <strong>${mensagens[i].to}</strong> ${mensagens[i].text}</span>
             </div>
             `
-        } else if (mensagens[i].tipo == 'normal') {
-            mensagemChat += `
-            <div class="mensagem ${mensagens[i].tipo}">
-                <span><span class="horario">${mensagens[i].horario}</span> <strong>${mensagens[i].remetente}</strong> reservadamente para <strong>${mensagens[i].destinatario}</strong> ${mensagens[i].mensagem}</span>
+        } else if (mensagens[i].type == 'reservada') {
+            mensagemChat.innerHTML += `
+            <div class="mensagem ${mensagens[i].type}">
+                <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong> ${mensagens[i].text}</span>
             </div>
             `   
         }
-
     }
 }
 
-renderizarMensagens()
+function pegarMensagens() {
+    const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    promessa.then(carregarMensagens);
+    promessa.catch(tratarError);
+}
+
+function carregarMensagens(response) {
+    mensagens = response.data;
+    renderizarMensagens();
+}
+
+function tratarError(error) {
+    console.log('Deu ruim');
+}
