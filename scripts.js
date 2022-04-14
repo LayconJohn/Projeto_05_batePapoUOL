@@ -1,7 +1,9 @@
 let mensagens = [];
+let usuario = {nome: ''};
 
 //Mensagens da API
 pegarMensagens();
+pegarNomeUsuario();
 
 function renderizarMensagens() {
     const mensagemChat = document.querySelector(".chat");
@@ -32,7 +34,6 @@ function renderizarMensagens() {
 function pegarMensagens() {
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(carregarMensagens);
-    promessa.catch(tratarError);
 }
 
 function carregarMensagens(response) {
@@ -41,5 +42,21 @@ function carregarMensagens(response) {
 }
 
 function tratarError(error) {
-    console.log('Deu ruim');
+    while (error.response.status === 400) {
+        alert('Nome já cadastrado');
+        pegarNomeUsuario();
+    }
+}
+
+function pegarNomeUsuario() {
+    usuario.nome = prompt('Qual é o nome de usuário?');
+    cadastrarUsuario(usuario);
+    return usuario
+}
+
+function cadastrarUsuario(user) {
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants ', user);
+
+    promessa.then(renderizarMensagens);
+    promessa.catch(tratarError);
 }
