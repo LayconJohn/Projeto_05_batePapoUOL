@@ -4,7 +4,7 @@ let mensagemText = '';
 let mensagem = {
 	from: `${pegarNomeUsuario()}`,
 	to: "Todos",
-	text: `${mensagemText}`,
+	text: `${enviarMensagem()}`,
 	type: "message" // ou "private_message" para o bônus
 }
 
@@ -44,7 +44,7 @@ function pegarMensagens() {
 }
 
 function enviarMensagem() {
-    mensagemText = document.querySelector("input").value;
+    mensagem.text = document.querySelector("input").value;
 
     //A partir daqui a requisição tá dando ruim
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', mensagem)
@@ -52,6 +52,7 @@ function enviarMensagem() {
     promessa.catch(function (response){
         alert("Deu ruim pra enviar a mensagem")
     })
+    return mensagem.text
 }
 
 function carregarMensagens(response) {
