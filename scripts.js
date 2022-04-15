@@ -1,5 +1,12 @@
 let mensagens = [];
 let usuario = {nome: ''};
+let mensagemText = '';
+let mensagem = {
+	from: `${pegarNomeUsuario()}`,
+	to: "Todos",
+	text: `${mensagemText}`,
+	type: "message" // ou "private_message" para o bônus
+}
 
 //Mensagens da API
 pegarMensagens();
@@ -15,13 +22,13 @@ function renderizarMensagens() {
                 <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong>  ${mensagens[i].text}</span>
             </div>
             `
-        } else if (mensagens[i].type == 'normal') {
+        } else if (mensagens[i].type == 'message') {
             mensagemChat.innerHTML += `
             <div class="mensagem ${mensagens[i].type}">
                 <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> para <strong>${mensagens[i].to}</strong> ${mensagens[i].text}</span>
             </div>
             `
-        } else if (mensagens[i].type == 'reservada') {
+        } else if (mensagens[i].type == 'private_message') {
             mensagemChat.innerHTML += `
             <div class="mensagem ${mensagens[i].type}">
                 <span><span class="horario">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong> ${mensagens[i].text}</span>
@@ -36,27 +43,37 @@ function pegarMensagens() {
     promessa.then(carregarMensagens);
 }
 
+function enviarMensagem() {
+    mensagemText = document.querySelector("input").value;
+
+    //A partir daqui a requisição tá dando ruim
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', mensagem)
+    promessa.then(carregarMensagens)
+    promessa.catch(function (response){
+        alert("Deu ruim pra enviar a mensagem")
+    })
+}
+
 function carregarMensagens(response) {
     mensagens = response.data;
     renderizarMensagens();
 }
 
 function tratarError(error) {
-    while (error.response.status === 400) {
+    if (error.response.status === 400) {
         alert('Nome já cadastrado');
-        pegarNomeUsuario();
+        pegarNomeUsuario()
     }
 }
 
 function pegarNomeUsuario() {
-    usuario.nome = prompt('Qual é o nome de usuário?');
+    usuario.name = prompt('Qual é o nome de usuário?');
     cadastrarUsuario(usuario);
-    return usuario
+    return usuario.name
 }
 
 function cadastrarUsuario(user) {
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants ', user);
-
     promessa.then(renderizarMensagens);
     promessa.catch(tratarError);
 }
