@@ -98,3 +98,23 @@ function manterUsuario() {
     });
     promessa.catch(pegarNomeUsuario);
 }
+
+function selecionarBarraLateral() {
+    const barraLateral = document.querySelector(".barra-lateral")
+    const telaLateral = document.querySelector(".tela-lateral")
+    barraLateral.classList.toggle("oculto")
+    telaLateral.classList.toggle("oculto")
+    barraLateral.innerHTML = `
+    <h5 class="titulo">Escolha um contato para enviar a mensagem</h5>
+    <div class="contatos">
+        <p><ion-icon name="people"></ion-icon> Todos</p>
+        <p><ion-icon name="person-circle"></ion-icon>João</p>
+        <p><ion-icon name="person-circle"></ion-icon>Maria</p>
+    </div>
+    <h5 class="titulo">Escolha a visibilidade</h5>
+    <div class="visibilidade">
+        <p><ion-icon name="lock-open"></ion-icon>Público</p>
+        <p><ion-icon name="lock-closed"></ion-icon>Reservadamente</p>
+    </div>
+    `
+}

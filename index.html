@@ -13,13 +13,18 @@
         <!-- Topo -->
         <div class="topo">
             <img src="Imagens/logo 1.png" alt="">
-            <ion-icon name="people"></ion-icon>
+            <ion-icon name="people" onclick="selecionarBarraLateral()"></ion-icon>
+         <!-- Barra Lateral -->
+            <div class="tela-lateral oculto" onclick="selecionarBarraLateral()"></div>
+            <div class="barra-lateral oculto">
+
+            </div>
         </div> 
         <!-- Chat -->
         <div class="chat">
             <!-- Javacript -->
         </div>
-        <!-- Topo -->
+        <!-- Barra inferior -->
         <div class="barra-inferior">
             <input class="barra-inferior" type="text" placeholder="Escreva Aqui..">
             <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>

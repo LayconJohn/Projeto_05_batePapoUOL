@@ -1,5 +1,5 @@
 HTML
-            
+            Chat
             <div class="mensagem status">
                 <span><span class="horario">(09:21:45)</span> <strong>João</strong>  entra na sala...</span>
             </div>
@@ -15,6 +15,19 @@ HTML
             <div class="mensagem status">
                 <span><span class="horario">(09:22:58)</span> <strong>Maria</strong>  sai da sala...</span>
             </div>
+
+    Barra lateral
+    <h5 class="titulo">Escolha um contato para enviar a mensagem</h5>
+    <div class="contatos">
+        <p><ion-icon name="people"></ion-icon> Todos</p>
+        <p><ion-icon name="person-circle"></ion-icon>João</p>
+        <p><ion-icon name="person-circle"></ion-icon>Maria</p>
+    </div>
+    <h5 class="titulo">Escolha a visibilidade</h5>
+    <div class="visibilidade">
+        <p><ion-icon name="lock-open"></ion-icon>Público</p>
+        <p><ion-icon name="lock-closed"></ion-icon>Reservadamente</p>
+    </div>
 
 Javascript
 
