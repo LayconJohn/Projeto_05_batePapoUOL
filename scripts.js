@@ -7,7 +7,7 @@ let nome;
 //Mensagens da API
 pegarNomeUsuario();
 setInterval(pegarMensagens, 3000);
-
+setInterval(manterUsuario, 4000);
 
 function renderizarMensagens() {
     const mensagemChat = document.querySelector(".chat");
@@ -60,7 +60,7 @@ function enviarMensagem() {
         mensagemTexto.innerHTML = '';
     })
     promessa.catch(function (response){
-        alert("Deu ruim pra enviar a mensagem")
+        window.location.reload()
     })
     
 }
@@ -89,4 +89,12 @@ function cadastrarUsuario(user) {
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants ', user);
     promessa.then(renderizarMensagens);
     promessa.catch(tratarError);
+}
+
+function manterUsuario() {
+    const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', usuario);
+    promessa.then(function (){
+        mensagem.from = usuario.name;
+    });
+    promessa.catch(pegarNomeUsuario);
 }
