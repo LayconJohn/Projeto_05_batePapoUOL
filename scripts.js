@@ -1,16 +1,13 @@
 let mensagens = [];
 let usuario = {nome: ''};
-let mensagemText = '';
-let mensagem = {
-	from: `${pegarNomeUsuario()}`,
-	to: "Todos",
-	text: `${enviarMensagem()}`,
-	type: "message" // ou "private_message" para o bônus
-}
+let mensagemTexto = '';
+let mensagem = {};
+let nome;
 
 //Mensagens da API
-pegarMensagens();
 pegarNomeUsuario();
+setInterval(pegarMensagens, 3000);
+
 
 function renderizarMensagens() {
     const mensagemChat = document.querySelector(".chat");
@@ -41,18 +38,31 @@ function renderizarMensagens() {
 function pegarMensagens() {
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(carregarMensagens);
+    const chat = document.querySelector(".chat");
+    chat.scrollIntoView({block: "end"});
 }
 
 function enviarMensagem() {
-    mensagem.text = document.querySelector("input").value;
+    mensagemTexto = document.querySelector("input");
+
+    mensagem = {
+        from: `${nome}`,
+        to: "Todos",
+        text: `${mensagemTexto.value}`,
+        type: "message" 
+    }
 
     //A partir daqui a requisição tá dando ruim
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', mensagem)
-    promessa.then(carregarMensagens)
+    promessa.then(function () {
+        mensagens.push(mensagem)
+        renderizarMensagens();
+        mensagemTexto.innerHTML = '';
+    })
     promessa.catch(function (response){
         alert("Deu ruim pra enviar a mensagem")
     })
-    return mensagem.text
+    
 }
 
 function carregarMensagens(response) {
@@ -70,7 +80,9 @@ function tratarError(error) {
 function pegarNomeUsuario() {
     usuario.name = prompt('Qual é o nome de usuário?');
     cadastrarUsuario(usuario);
-    return usuario.name
+    mensagem.from = usuario.name
+    nome = mensagem.from
+    return nome
 }
 
 function cadastrarUsuario(user) {
