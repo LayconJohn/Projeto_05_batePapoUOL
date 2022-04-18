@@ -117,6 +117,10 @@
     margin-right: 8px;
 }
 
+.barra-lateral .contatos {
+    overflow: scroll;
+}
+
 /* Barra inferior */
 .barra-inferior {
     width: 100%;

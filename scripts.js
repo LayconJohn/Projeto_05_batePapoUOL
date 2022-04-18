@@ -3,7 +3,7 @@ let usuario = {nome: ''};
 let mensagemTexto = '';
 let mensagem = {};
 let nome;
-let destinatario = document.querySelector(".contatos .selecionado").parentNode.innerText;
+//let destinatario = document.querySelector(".contatos .selecionado").parentNode.innerText;
 let tipoMensagem = 'message';
 
 //Mensagens da API
@@ -49,12 +49,10 @@ function enviarMensagem() {
 
     mensagem = {
         from: `${nome}`,
-        to: `${destinatario}`,
+        to: `Todos`, //${destinatario}
         text: `${mensagemTexto.value}`,
-        type: `${tipoMensagem}`
+        type: `message` //${tipoMensagem}
     }
-
-    //A partir daqui a requisição tá dando ruim
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', mensagem)
     promessa.then(function () {
         mensagens.push(mensagem)
@@ -110,8 +108,6 @@ function selecionarBarraLateral() {
     <h5 class="titulo">Escolha um contato para enviar a mensagem</h5>
     <div class="contatos">
         <p onclick='selecionarContato(this)' ><ion-icon name="people"></ion-icon> Todos <ion-icon name="checkmark" class="caixa-selecionada selecionado"></ion-icon></p>
-        <p onclick='selecionarContato(this)' ><ion-icon name="person-circle"></ion-icon>João <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
-        <p onclick='selecionarContato(this)'><ion-icon name="person-circle"></ion-icon>Maria <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
     </div>
     <h5 class="titulo">Escolha a visibilidade</h5>
     <div class="visibilidade">
@@ -119,6 +115,7 @@ function selecionarBarraLateral() {
         <p onclick='selecionarVisibilidade(this)'><ion-icon name="lock-closed"></ion-icon>Reservadamente <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
     </div>
     `
+    pegarUsuariosAtivos();
 }
 
 function selecionarContato(elemento) {
@@ -141,7 +138,7 @@ function selecionarVisibilidade(elemento) {
     }
     elementoSelecionado.classList.remove("oculto")
     elementoSelecionado.classList.add("selecionado")
-    pegaTipoMensagem()
+    //pegaTipoMensagem()
 }
 
 function pegaTipoMensagem() {
@@ -151,4 +148,19 @@ function pegaTipoMensagem() {
         tipoMensagem = 'private_message';
     }
     return tipoMensagem;
+}
+
+function pegarUsuariosAtivos() {
+    const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants')
+    promessa.then(inserirUsuariosAtivos)
+}
+
+function inserirUsuariosAtivos(response) {
+    let contatos = document.querySelector(".contatos")
+    let listaUsurarios = response.data
+    for (let i = 0; i < listaUsurarios.length; i++) {
+        contatos.innerHTML += `
+        <p onclick='selecionarContato(this)' ><ion-icon name="person-circle"></ion-icon> ${listaUsurarios[i].name} <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
+        `
+    }
 }
