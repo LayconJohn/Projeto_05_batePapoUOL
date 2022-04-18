@@ -35,14 +35,17 @@ function renderizarMensagens() {
             `   
         }
     }
+    scrollChat()
+}
+
+function scrollChat() {
+    const chat = document.querySelector(".chat");
+    chat.scrollIntoView(true);
 }
 
 function pegarMensagens() {
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(carregarMensagens);
-    const chat = document.querySelector(".chat");
-    //chat.scrollTop = chat.scrollHeight
-    chat.scrollIntoView({block: "end"});
 }
 
 function enviarMensagem() {
