@@ -108,6 +108,7 @@
     margin-bottom: 6px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .barra-lateral ion-icon {
@@ -145,4 +146,11 @@
 
 .oculto {
     display: none;
+}
+
+.selecionado {
+    position: absolute;
+    right: 27px;
+    top: 0px;
+    color: green;
 }

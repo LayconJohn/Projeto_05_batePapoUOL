@@ -3,6 +3,8 @@ let usuario = {nome: ''};
 let mensagemTexto = '';
 let mensagem = {};
 let nome;
+let destinatario = document.querySelector(".contatos .selecionado").parentNode.innerText;
+let tipoMensagem = 'message';
 
 //Mensagens da API
 pegarNomeUsuario();
@@ -47,9 +49,9 @@ function enviarMensagem() {
 
     mensagem = {
         from: `${nome}`,
-        to: "Todos",
+        to: `${destinatario}`,
         text: `${mensagemTexto.value}`,
-        type: "message" 
+        type: `${tipoMensagem}`
     }
 
     //A partir daqui a requisição tá dando ruim
@@ -107,14 +109,46 @@ function selecionarBarraLateral() {
     barraLateral.innerHTML = `
     <h5 class="titulo">Escolha um contato para enviar a mensagem</h5>
     <div class="contatos">
-        <p><ion-icon name="people"></ion-icon> Todos</p>
-        <p><ion-icon name="person-circle"></ion-icon>João</p>
-        <p><ion-icon name="person-circle"></ion-icon>Maria</p>
+        <p onclick='selecionarContato(this)' ><ion-icon name="people"></ion-icon> Todos <ion-icon name="checkmark" class="caixa-selecionada selecionado"></ion-icon></p>
+        <p onclick='selecionarContato(this)' ><ion-icon name="person-circle"></ion-icon>João <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
+        <p onclick='selecionarContato(this)'><ion-icon name="person-circle"></ion-icon>Maria <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
     </div>
     <h5 class="titulo">Escolha a visibilidade</h5>
     <div class="visibilidade">
-        <p><ion-icon name="lock-open"></ion-icon>Público</p>
-        <p><ion-icon name="lock-closed"></ion-icon>Reservadamente</p>
+        <p onclick='selecionarVisibilidade(this)'><ion-icon name="lock-open"></ion-icon>Público <ion-icon name="checkmark" class="caixa-selecionada selecionado"></ion-icon></p>
+        <p onclick='selecionarVisibilidade(this)'><ion-icon name="lock-closed"></ion-icon>Reservadamente <ion-icon name="checkmark" class="caixa-selecionada oculto"></ion-icon></p>
     </div>
     `
+}
+
+function selecionarContato(elemento) {
+    const elementoSelecionado = elemento.querySelector(".caixa-selecionada")
+    const card = document.querySelector(".contatos .caixa-selecionada.selecionado") 
+    if (card !== null) {
+        card.classList.remove("selecionado")
+        card.classList.add("oculto") 
+    }
+    elementoSelecionado.classList.remove("oculto")
+    elementoSelecionado.classList.add("selecionado")
+}
+
+function selecionarVisibilidade(elemento) {
+    const elementoSelecionado = elemento.querySelector(".caixa-selecionada")
+    const card = document.querySelector(".visibilidade .caixa-selecionada.selecionado") 
+    if (card !== null) {
+        card.classList.remove("selecionado")
+        card.classList.add("oculto") 
+    }
+    elementoSelecionado.classList.remove("oculto")
+    elementoSelecionado.classList.add("selecionado")
+    pegaTipoMensagem()
+}
+
+function pegaTipoMensagem() {
+    if (document.querySelector(".visibilidade .selecionado").parentNode.innerText === 'Público') {
+        tipoMensagem = 'message';
+    } else {
+        tipoMensagem = 'private_message';
+    }
+    return tipoMensagem;
 }
