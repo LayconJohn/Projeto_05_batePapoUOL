@@ -3,7 +3,7 @@ let usuario = {nome: ''};
 let mensagemTexto = '';
 let mensagem = {};
 let nome;
-//let destinatario = document.querySelector(".contatos .selecionado").parentNode.innerText;
+let destinatario;
 let tipoMensagem = 'message';
 
 //Mensagens da API
@@ -41,17 +41,17 @@ function pegarMensagens() {
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(carregarMensagens);
     const chat = document.querySelector(".chat");
+    //chat.scrollTop = chat.scrollHeight
     chat.scrollIntoView({block: "end"});
 }
 
 function enviarMensagem() {
     mensagemTexto = document.querySelector("input");
-
     mensagem = {
         from: `${nome}`,
-        to: `Todos`, //${destinatario}
+        to: `${destinatario}`, // Todos (padrão) 
         text: `${mensagemTexto.value}`,
-        type: `message` //${tipoMensagem}
+        type: `${tipoMensagem}` // message(padrão) 
     }
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', mensagem)
     promessa.then(function () {
@@ -62,7 +62,7 @@ function enviarMensagem() {
     promessa.catch(function (response){
         window.location.reload()
     })
-    
+    document.querySelector("input").value = ''
 }
 
 function carregarMensagens(response) {
@@ -96,7 +96,7 @@ function manterUsuario() {
     promessa.then(function (){
         mensagem.from = usuario.name;
     });
-    promessa.catch(pegarNomeUsuario);
+    promessa.catch(cadastrarUsuario);
 }
 
 function selecionarBarraLateral() {
@@ -127,6 +127,8 @@ function selecionarContato(elemento) {
     }
     elementoSelecionado.classList.remove("oculto")
     elementoSelecionado.classList.add("selecionado")
+    destinatario = document.querySelector(".contatos p .selecionado").parentElement.innerText;
+    mensagem.to = destinatario;
 }
 
 function selecionarVisibilidade(elemento) {
@@ -138,7 +140,7 @@ function selecionarVisibilidade(elemento) {
     }
     elementoSelecionado.classList.remove("oculto")
     elementoSelecionado.classList.add("selecionado")
-    //pegaTipoMensagem()
+    pegaTipoMensagem()
 }
 
 function pegaTipoMensagem() {
@@ -147,7 +149,7 @@ function pegaTipoMensagem() {
     } else {
         tipoMensagem = 'private_message';
     }
-    return tipoMensagem;
+    mensagem.type = tipoMensagem;
 }
 
 function pegarUsuariosAtivos() {

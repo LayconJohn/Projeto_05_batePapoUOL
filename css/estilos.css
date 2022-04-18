@@ -118,7 +118,8 @@
 }
 
 .barra-lateral .contatos {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 /* Barra inferior */
